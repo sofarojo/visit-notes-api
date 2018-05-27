@@ -1,9 +1,16 @@
 const express = require('express');
+const session = require('express-session');
 const expressGraphQL = require('express-graphql');
 
 const dbConfig = require('./db_config');
 const mongoose = require('mongoose');
+require('./models');
 const schema = require('./schema/schema');
+
+const MongoStore = require('connect-mongo')(session);
+
+const passport = require('passport');
+require('./services/auth_service');
 
 const app = express();
 
@@ -18,6 +25,20 @@ mongoose.connect(mongoURI, {
 mongoose.connection
     .once('open', () => console.log('Connected to MongoLab instance.'))
     .on('error', error => console.log('Error connecting to MongoLab:', error));
+
+
+app.use(session({
+    resave: true,
+    saveUninitialized: true,
+    secret: 'aaabbbccc',
+    store: new MongoStore({
+        url: mongoURI,
+        autoReconnect: true
+    })
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/graphql', expressGraphQL({
     schema,
