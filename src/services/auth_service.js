@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+import mongoose from 'mongoose';
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
 
 const User = mongoose.model('user');
 
-// SerializeUser is used to provide some identifying token that can be saved
+// SerializeUser is used to provide some identifying stoken that can be saved
 // in the users session.
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -100,4 +100,4 @@ function login({ email, password, req }) {
   });
 }
 
-module.exports = { signup, login };
+export default { signup, login };

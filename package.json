@@ -4,7 +4,9 @@
   "description": "Visit notes api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/index.js --exec babel-node --presets env",
+    "build": "babel -d dist",
+    "serve": "node dist/src/index.js"
   },
   "repository": {
     "type": "git",
@@ -23,9 +25,15 @@
     "express-graphql": "^0.6.12",
     "express-session": "^1.15.0",
     "graphql": "^0.13.2",
+    "graphql-iso-date": "^3.5.0",
     "loadash": "^1.0.0",
     "mongoose": "^4.7.8",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.17.5"
   }
 }

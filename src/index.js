@@ -1,16 +1,18 @@
-const express = require('express');
-const session = require('express-session');
-const expressGraphQL = require('express-graphql');
+import express from 'express';
+import session from 'express-session';
+import expressGraphQL from 'express-graphql';
 
-const dbConfig = require('./db_config');
-const mongoose = require('mongoose');
-require('./models');
-const schema = require('./schema/schema');
+import dbConfig from './db_config';
+import mongoose from 'mongoose';
+import './models/index';
+import schema from './schema/schema';
 
-const MongoStore = require('connect-mongo')(session);
+import passport from 'passport';
+import './services/auth_service';
 
-const passport = require('passport');
-require('./services/auth_service');
+import connectMongo from 'connect-mongo';
+
+const MongoStore = connectMongo(session);
 
 const app = express();
 
@@ -49,4 +51,4 @@ app.listen(4000, () => {
     console.log('Listening on port 4000...')
 });
 
-module.exports = app;
+export { app };
