@@ -69,6 +69,7 @@ const mutations = new GraphQLObjectType({
     addVisit: {
       type: VisitType,
       args: {
+        userId: { type: GraphQLID },
         patientId: { type: GraphQLID },
         visitDate: { type: GraphQLDateTime },
         diagnosis: { type: GraphQLString },
@@ -76,14 +77,15 @@ const mutations = new GraphQLObjectType({
         notes: { type: GraphQLString },
         indications: { type: GraphQLString }
       },
-      resolve(parentValue, args) {
+      resolve(parentValue, args, context) {
         return Patient.addVisit(
-          args.patientId,
-          args.visitDate,
-          args.diagnosis,
-          args.secondDiagnosis,
-          args.notes,
-          args.indications);
+            context.user,
+            args.patientId,
+            args.visitDate,
+            args.diagnosis,
+            args.secondDiagnosis,
+            args.notes,
+            args.indications);
       }
     }
   }

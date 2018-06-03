@@ -1,9 +1,8 @@
 import { GraphQLObjectType, GraphQLString, GraphQLID } from 'graphql';
 import { GraphQLDateTime } from 'graphql-iso-date';
 import mongoose from 'mongoose';
-import PatientType from "./patient_type";
-
-const Schema = mongoose.Schema;
+import PatientType from './patient_type';
+import UserType from './user_type';
 
 const Visit = mongoose.model('visit');
 
@@ -16,10 +15,16 @@ const VisitType = new GraphQLObjectType({
         secondDiagnosis: { type: GraphQLString },
         notes: { type: GraphQLString },
         indications: { type: GraphQLString },
+        user: {
+            type: UserType,
+            resolve(parent) {
+                return Visit.findUser(parent.id);
+            }
+        },
         patient: {
             type: PatientType,
-            resolve(parentValue) {
-                return Visit.findPatient(parentValue.id);
+            resolve(parent) {
+                return Visit.findPatient(parent.id);
             }
         },
     })

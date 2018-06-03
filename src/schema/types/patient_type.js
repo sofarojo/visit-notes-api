@@ -16,14 +16,14 @@ const PatientType = new GraphQLObjectType({
         address: { type: GraphQLString },
         user: {
             type: UserType,
-            resolve(parentValue) {
-              return Patient.findUser(parentValue.id);
+            resolve(parent) {
+              return Patient.findUser(parent.id);
             }
         },
         visits: {
             type: new GraphQLList(VisitType),
-            resolve(parentValue) {
-                return Patient.findVisits(parentValue.id);
+            resolve(parent) {
+                return Patient.findVisits(parent.id);
             }
         }
     })

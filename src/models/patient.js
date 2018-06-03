@@ -17,17 +17,17 @@ const PatientSchema = new Schema({
   }]
 });
 
-PatientSchema.statics.addVisit = function(patientId, visitDate, diagnosis, secondDiagnosis, notes, indications) {
+PatientSchema.statics.addVisit = function(user, patientId, visitDate, diagnosis, secondDiagnosis, notes, indications) {
   const Visit = mongoose.model('visit');
 
   return this.findById(patientId)
     .then(patient => {
-      const visit = new Visit({ visitDate, diagnosis, secondDiagnosis, notes, indications, patient })
+      const visit = new Visit({ visitDate, diagnosis, secondDiagnosis, notes, indications, patient, user })
       patient.visits.push(visit)
       return Promise.all([visit.save(), patient.save()])
         .then(([visit]) => visit);
     });
-}
+};
 
 PatientSchema.statics.findUser = function(id) {
   return this.findById(id)

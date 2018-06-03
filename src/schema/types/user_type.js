@@ -12,8 +12,8 @@ const UserType = new GraphQLObjectType({
         email: { type: GraphQLString },
         patients: {
             type: new GraphQLList(PatientType),
-            resolve(parentValue) {
-              return User.findPatients(parentValue.id);
+            resolve(parent) {
+              return User.findPatients(parent.id);
             }
         }
     })
